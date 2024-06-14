@@ -1,12 +1,28 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-
+import axios from 'axios'; // Or use fetch
 
 const SearchPokemon = () => {
+  const [pokemonList, setPokemonList] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPokemon, setSelectedPokemon] = useState('');
+
+  
+  useEffect(() => {
+    const fetchPokemonList = async () => {
+      try {
+        const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=1000');
+        const pokemonNames = response.data.results.map(pokemon => pokemon.name);
+        setPokemonList(pokemonNames);
+      } catch (err) {
+        setError(err);
+      }
+    };
+
+    fetchPokemonList();
+  }, []); 
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -15,16 +31,6 @@ const SearchPokemon = () => {
   const handleSelectChange = (event) => {
     setSelectedPokemon(event.target.value);
   };
-
-  const pokemonList = [
-    'Bulbasaur',
-    'Ivysaur',
-    'Venusaur',
-    'Charmander',
-    'Charmeleon',
-    'Charizard',
-    // Add more Pokémon as needed
-  ];
 
   return (
     <div className="p-4">
@@ -38,7 +44,7 @@ const SearchPokemon = () => {
             className="w-full p-2 border border-gray-300 rounded"
           >
             <option value="">Select a Pokémon</option>
-            {pokemonList.map((pokemon) => (
+            {pokemonList?.map((pokemon) => (
               <option key={pokemon} value={pokemon}>{pokemon}</option>
             ))}
           </select>
