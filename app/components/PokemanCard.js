@@ -47,10 +47,9 @@ const PokemonCard = ({ searchQuery, selectedType }) => {
        <Link
        href="/pokemon/[pokemon]"
        as={`/pokemon/${pokemon.name}/${pokemon.id}`}
+       key={id}
      >
-       <div
-          key={id}
-          className="bg-white rounded-lg overflow-hidden shadow-md m-4 flex flex-col"
+       <div className="bg-white rounded-lg overflow-hidden shadow-md m-4 flex flex-col"
         >
           <img src={pokemon.url} alt={pokemon.name} className="w-full h-auto" />
           <div className="p-4 flex flex-col items-start">
