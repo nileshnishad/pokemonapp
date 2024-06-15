@@ -5,8 +5,10 @@ import Link from "next/link";
 import axios from "axios";
 
 
-const PokemonCard = () => {
+const PokemonCard = ({searchQuery}) => {
     const [pokemonData, setPokemonData] = useState(null)
+    const [filteredPokemon, setFilteredPokemon] = useState([]);
+
 
     useEffect(() => {
       const fetchData = async () => {
@@ -15,15 +17,12 @@ const PokemonCard = () => {
                   axios.get(`https://pokeapi.co/api/v2/pokemon/${index + 1}`)
               );
               const responses = await Promise.all(promises);
-              console.log("responses",responses);
               const pokemonDetails = responses.map(response => ({
                   id:response.data.id,
                   name: response.data.name,
                   url: response.data.sprites.front_default
               }));
-              console.log("pokemonDetails",pokemonDetails);
               setPokemonData(pokemonDetails);
-              console.log("pokemonDetails", pokemonDetails);
           } catch (error) {
               console.error('Error fetching Pokemon data:', error);
           }
@@ -31,14 +30,22 @@ const PokemonCard = () => {
 
       fetchData();
   }, []);
+  useEffect(() => {
+    if (pokemonData) {
+      const filtered = pokemonData.filter((pokemon) =>
+        pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredPokemon(filtered);
+    }
+  }, [searchQuery, pokemonData]);
 
     if (!pokemonData) {
       return <div>Loading...</div>;
     }
 
     return (
-      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2">
-      {pokemonData.map((pokemon, id) => (
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+      {filteredPokemon.map((pokemon, id) => (
         <div key={id} className="bg-white rounded-lg overflow-hidden shadow-md m-4 flex flex-col">
           <img
             src={pokemon.url}

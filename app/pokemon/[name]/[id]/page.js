@@ -34,55 +34,60 @@ const PokemonDetailsPage = ({ params: { id } }) => {
         <p className="text-blue-500 m-4">&lt; Back</p>
       </Link>
       <div className="m-4 flex items-center">
-        {" "}
         <Link href="/">
           <p className="text-blue-500 m-4"> Home</p>
-        </Link>{" "}
+        </Link>
         &gt; {pokemonDetails.name}
       </div>
-      <div className="flex justify-center mt-8">
+      <div className="flex justify-center mt-4">
         <div
-          className="bg-white rounded-lg shadow-lg p-4 m-4 "
+          className="bg-white rounded-lg shadow-lg  m-4"
           style={{ minWidth: "300px" }}
         >
           <div className="flex justify-center">
             <img
               src={pokemonDetails.sprites.front_default}
               alt={pokemonDetails.name}
-              className="mt-4 "
+              className=""
+              style={{ minHeight: "300px" }}
             />
           </div>
+          <div className="bg-orange-300 p-4">
           <div className="mt-4 flex items-center">
-            <h1 className="text-xl font-bold ">Name : </h1>{" "}
-            {pokemonDetails.name}
+            <h1 className="text-xl font-bold mr-2">Name:</h1>
+            <span>{pokemonDetails.name}</span>
           </div>
           <div className="mt-4 flex items-center">
-            <h2 className="text-xl font-semibold">Type:</h2>
-
-            {pokemonDetails.types.map((type, index) => (
-              <span key={index}> {[type.type.name].join(",")}</span>
-            ))}
+            <h2 className="text-xl font-semibold mr-2">Type:</h2>
+            <span>
+              {pokemonDetails.types.map((type) => type.type.name).join(", ")}
+            </span>
           </div>
-          <div className="mt-4 flex">
-            <h2 className="text-xl font-semibold">Stats:</h2>
-            {pokemonDetails.stats.map((stat, index) => (
-              <span key={index}>
-                {stat.stat.name}: {stat.base_stat}
-              </span>
-            ))}
+          <div className="mt-4 flex ">
+            <h2 className="text-xl font-semibold mr-2">Stats:</h2>
+            <span>
+              {pokemonDetails.stats
+                .map((stat) => `${stat.stat.name}: ${stat.base_stat}`)
+                .join(", ")}
+            </span>
           </div>
-          <div className="mt-4 flex">
-            <h2 className="text-xl font-semibold">Abilities:</h2>
-            {pokemonDetails.abilities.map((ability, index) => (
-              <span key={index}>{ability.ability.name}</span>
-            ))}
+          <div className="mt-4 flex ">
+            <h2 className="text-xl font-semibold mr-2">Abilities:</h2>
+            <span>
+              {pokemonDetails.abilities
+                .map((ability) => ability.ability.name)
+                .join(", ")}
+            </span>
           </div>
-          <div className="mt-4 flex">
-            <h2 className="text-xl font-semibold">Moves:</h2>
-
-            {pokemonDetails.moves.slice(0, 5).map((move, index) => (
-              <span key={index}>{move.move.name}</span>
-            ))}
+          <div className="mt-4 flex ">
+            <h2 className="text-xl font-semibold mr-2">Moves:</h2>
+            <span>
+              {pokemonDetails.moves
+                .slice(0, 5)
+                .map((move) => move.move.name)
+                .join(", ")}
+            </span>
+          </div>
           </div>
         </div>
       </div>

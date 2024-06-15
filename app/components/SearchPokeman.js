@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios'; // Or use fetch
 
-const SearchPokemon = () => {
+const SearchPokemon = ( { onSearch }) => {
   const [pokemonList, setPokemonList] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPokemon, setSelectedPokemon] = useState('');
@@ -24,12 +24,15 @@ const SearchPokemon = () => {
     fetchPokemonList();
   }, []); 
 
+ 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+    onSearch(event.target.value);
   };
 
   const handleSelectChange = (event) => {
     setSelectedPokemon(event.target.value);
+    onSearch(event.target.value);
   };
 
   return (
@@ -64,7 +67,8 @@ const SearchPokemon = () => {
               placeholder="Search..."
               className="w-full p-2 pl-10 border border-gray-300 rounded outline-none"
             />
-            <button className="absolute right-0 top-0 h-full bg-blue-800 text-white p-2 rounded-r-md">Search</button>
+            <button className="absolute right-0 top-0 h-full bg-blue-800 text-white p-2 rounded-r-md" 
+             onClick={() => onSearch(searchTerm)}>Search</button>
           </div>
         </div>
       </div>
