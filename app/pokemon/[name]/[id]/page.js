@@ -29,16 +29,16 @@ const PokemonDetailsPage = ({ params: { id } }) => {
   }
 
   return (
-    <>
-      <Link href="/">
-        <p className="text-blue-500 m-4">&lt; Back</p>
-      </Link>
-      <div className="m-4 flex items-center">
+    <> 
+      <div className="flex items-center justify-start">
         <Link href="/">
           <p className="text-blue-500 m-4"> Home</p>
         </Link>
         &gt; {pokemonDetails.name}
       </div>
+      <Link href="/">
+        <p className="text-blue-500 m-4">&lt; Back</p>
+      </Link>
       <div className="flex justify-center mt-4">
         <div
           className="bg-white rounded-lg shadow-lg  m-4"
