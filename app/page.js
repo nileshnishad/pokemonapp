@@ -6,6 +6,7 @@ import { useState } from "react";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedType, setSelectedType] = useState('');
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -13,8 +14,8 @@ export default function Home() {
 
   return (
     <>
-    <SearchPokeman onSearch={handleSearch} />
-    <PokemanCard searchQuery={searchQuery} />
+    <SearchPokeman onSearch={handleSearch}    onTypeChange={setSelectedType}/>
+    <PokemanCard searchQuery={searchQuery}  selectedType={selectedType} />
     </>
   );
 }

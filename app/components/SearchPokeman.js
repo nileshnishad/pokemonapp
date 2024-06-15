@@ -2,12 +2,14 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios'; // Or use fetch
+import axios from 'axios'; 
 
-const SearchPokemon = ( { onSearch }) => {
+const SearchPokemon = ( { onSearch,onTypeChange }) => {
   const [pokemonList, setPokemonList] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPokemon, setSelectedPokemon] = useState('');
+  const [selectedType, setSelectedType] = useState('');
+  const [pokemonTypes, setPokemonTypes] = useState([]);
 
   
   useEffect(() => {
@@ -20,8 +22,18 @@ const SearchPokemon = ( { onSearch }) => {
         setError(err);
       }
     };
+    const fetchPokemonTypes = async () => {
+      try {
+        const response = await axios.get('https://pokeapi.co/api/v2/type');
+        const types = response.data.results.map(type => type.name);
+        setPokemonTypes(types);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
     fetchPokemonList();
+    fetchPokemonTypes();
   }, []); 
 
  
@@ -35,20 +47,25 @@ const SearchPokemon = ( { onSearch }) => {
     onSearch(event.target.value);
   };
 
+  const handleTypeChange = (event) => {
+    setSelectedType(event.target.value);
+    onTypeChange(event.target.value);
+  };
+
   return (
     <div className="p-4">
       <div className="flex flex-col md:flex-row items-center gap-4 mb-4">
-        <div className="flex-1 w-full">
-          <label htmlFor="pokemon-select" className="block text-gray-700 mb-2">Select Pokémon</label>
+      <div className="flex-1 w-full">
+          <label htmlFor="pokemon-type-select" className="block text-gray-700 mb-2">Select Pokémon Type</label>
           <select
-            id="pokemon-select"
-            value={selectedPokemon}
-            onChange={handleSelectChange}
+            id="pokemon-type-select"
+            value={selectedType}
+            onChange={handleTypeChange}
             className="w-full p-2 border border-gray-300 rounded"
           >
-            <option value="">Select a Pokémon</option>
-            {pokemonList?.map((pokemon) => (
-              <option key={pokemon} value={pokemon}>{pokemon}</option>
+            <option value="">Select a Pokémon Type</option>
+            {pokemonTypes.map((type) => (
+              <option key={type} value={type}>{type}</option>
             ))}
           </select>
         </div>
