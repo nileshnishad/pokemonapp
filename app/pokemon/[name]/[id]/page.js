@@ -44,7 +44,7 @@ const PokemonDetailsPage = ({ params: { id } }) => {
           className="bg-white rounded-lg shadow-lg  m-4"
           style={{ minWidth: "300px" }}
         >
-          <div className="flex justify-center">
+          <div className="flex  bg-gray-200  justify-center">
             <img
               src={pokemonDetails.sprites.front_default}
               alt={pokemonDetails.name}
